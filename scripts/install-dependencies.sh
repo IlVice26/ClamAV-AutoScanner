@@ -1,7 +1,8 @@
-pwd_local=$(pwd)
+#!/bin/bash
 
 if [ -z $VIRTUAL_ENV ]
-then 
+then
+    pwd_local=$(pwd)
     source $pwd_local/venv/bin/activate
 fi
 
