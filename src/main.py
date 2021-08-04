@@ -10,6 +10,7 @@ import json
 import pyudev
 import requests
 import argparse
+import subprocess
 
 import cas_logger
 
@@ -53,20 +54,6 @@ def download_config_file():
         cas_logger.log("The requested file 'config.json' could not be downloaded", args.verbose, "WARNING")
 
 
-def check_os():
-    """
-    Checks which operating system the program runs on
-    """
-
-    if not sys.platform in program_config['OS']['OS_SUPPORTED']:
-        cas_logger.log("Your operating system is not officially supported by " 
-                    + "ClamAV-AutoScanner. Please keep yourself updated about possible updates.", 
-                    args.verbose, "ERROR")
-        sys.exit(-1)
-
-    cas_logger.log("OS Check Passed\n", args.verbose, "INFO")
-
-
 def load_config(development=False):
     """
     Load the program configuration file
@@ -84,6 +71,43 @@ def load_config(development=False):
         cas_logger.log("Error loading config.json file", args.verbose, "ERROR") 
 
 
+def check_os():
+    """
+    Checks which operating system the program runs on
+    """
+
+    if not sys.platform in program_config['OS']['OS_SUPPORTED']:
+        cas_logger.log("Your operating system is not officially supported by " 
+                    + "ClamAV-AutoScanner. Please keep yourself updated about possible updates.", 
+                    args.verbose, "ERROR")
+        sys.exit(-1)
+
+    cas_logger.log("OS check passed", args.verbose, "INFO")
+
+
+def check_clamav():
+    """
+    Check if ClamAV is installed correctly
+    """
+
+    cmd_to_check = ['freshclam', 'clamscan']
+
+    for cmd in cmd_to_check:
+        output = subprocess.Popen(['whereis', cmd], stdout=subprocess.PIPE)
+        
+        if not len(str(output.stdout.read()).split(" ")) > 1:
+            cas_logger.log("The program {} was not found. Try reinstalling ClamAV.". format(cmd),
+            args.verbose,
+            "ERROR")
+            sys.exit(-1)
+        else:
+            cas_logger.log("{} installed".format(cmd),
+            False,
+            "INFO")
+    
+    cas_logger.log("ClamAV executable check passed\n", args.verbose, "INFO")
+
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description="ClamAV - AutoScanner")
@@ -98,7 +122,6 @@ if __name__ == '__main__':
                         help="Start the program in the development environment")
 
     args = parser.parse_args()
-    print(args)
 
     cas_logger.print_timestamp(args.rewrite)
 
@@ -107,5 +130,6 @@ if __name__ == '__main__':
     # Initial operations
     program_config = load_config(args.development)
     check_os()
+    check_clamav()
 
-    check_usb_device()
+    #check_usb_device()
