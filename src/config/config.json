@@ -1,0 +1,23 @@
+{
+    "FS" : {
+        "FS_SUPPORTED" : [
+            "ntfs",
+            "vfat",
+            "brtfs"
+        ],
+        "FS_NOT_SUPPORTED" : [
+            "iso9660"
+        ]
+    },
+    "OS" : {
+        "OS_SUPPORTED" : [
+            "linux"
+        ],
+        "OS_NOT_SUPPORTED" : [
+            "darwin",
+            "win32",
+            "cygwin",
+            "aix"
+        ]
+    }
+}
