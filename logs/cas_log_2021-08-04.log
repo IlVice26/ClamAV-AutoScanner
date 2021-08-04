@@ -1,0 +1,7 @@
+--------------------2021-08-04 10-00-54--------------------
+2021-08-04 10:00:54,020 - INFO - Program version: alpha 0.1
+2021-08-04 10:00:54,319 - INFO - The requested file 'config.json' has been successfully downloaded
+2021-08-04 10:00:54,319 - INFO - The file 'config.json' has been loaded correctly
+2021-08-04 10:00:54,319 - INFO - OS Check Passed
+2021-08-04 10:00:54,331 - INFO - /dev/sdb2 | vfat
+2021-08-04 10:00:54,332 - INFO - /dev/sdb1 | iso9660
