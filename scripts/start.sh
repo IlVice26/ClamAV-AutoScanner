@@ -9,11 +9,12 @@ fi
 
 # Arguments to be used with the program
 verbose=""
-while getopts "vr" flag
+while getopts "vrd" flag
 do
     case "${flag}" in
         v) verbose="-v";;
-        r) rewrite="-r"
+        r) rewrite="-r";;
+        d) development="-d"
     esac
 done
 
@@ -21,27 +22,16 @@ done
 if [[ $verbose != "-v" ]]
 then
 
-    if [[ $rewrite != "-r" ]]
-    then
-        # Main program call
-        python3 -B src/main.py -r
-    else
-        python3 -B src/main.py
-    fi
+    # Main program call
+    python3 -B src/main.py $verbose $rewrite $development
 
-    # Virtualenv deactivation
     deactivate
 else
     echo -e "\nVirtual environment activated:" $VIRTUAL_ENV 
-    echo -e "Arguments: $verbose $rewrite\n"
+    echo -e "Arguments: $verbose $rewrite $development\n"
  
     # Main program call
-    if [[ $rewrite != "-r" ]]
-    then
-        python3 -B src/main.py $verbose 
-    else
-        python3 -B src/main.py $verbose $rewrite
-    fi
+    python3 -B src/main.py $verbose $rewrite $development
 
     # Virtualenv deactivation
     deactivate  

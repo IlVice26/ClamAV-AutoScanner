@@ -67,14 +67,15 @@ def check_os():
     cas_logger.log("OS Check Passed\n", args.verbose, "INFO")
 
 
-def load_config():
+def load_config(development=False):
     """
     Load the program configuration file
     """
 
     config_file = 'src/config/config.json'  # config.json path
 
-    download_config_file()  # Download the latest version of the config file
+    if not development:
+        download_config_file()  # Download the latest version of the config file
 
     if os.path.exists(config_file):
         cas_logger.log("The file 'config.json' has been loaded correctly", args.verbose, "INFO")
@@ -92,15 +93,19 @@ if __name__ == '__main__':
     parser.add_argument("-r", "--rewrite",
                         action="store_true",
                         help="Rewrite today log file")
+    parser.add_argument("-d", "--development",
+                        action="store_true",
+                        help="Start the program in the development environment")
 
     args = parser.parse_args()
+    print(args)
 
     cas_logger.print_timestamp(args.rewrite)
 
     cas_logger.log("Program version: " + __VERSION__, args.verbose, "INFO")
 
     # Initial operations
-    program_config = load_config()
+    program_config = load_config(args.development)
     check_os()
 
     check_usb_device()
