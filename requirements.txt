@@ -1,6 +1,6 @@
 certifi==2023.7.22
 charset-normalizer==2.0.4
-future==0.18.2
+future==0.18.3
 idna==3.2
 iso8601==0.1.16
 pyudev==0.22.0
